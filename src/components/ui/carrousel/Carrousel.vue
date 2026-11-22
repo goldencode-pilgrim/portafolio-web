@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
-// Carrusel sin dependencias externas (el portafolio no tiene embla-carousel).
-// Misma interfaz que CarrusImaginum.vue de vue-web, adaptada.
+// Carrusel en tira horizontal: 4 columnas × 1 fila, hueco proporcional
+// y una ranura (#columne) para superponer un div sobre cada columna.
 interface Props {
   /** Nombres de archivo SIN extensión */
   photos: string[];
   /** Carpeta en /public, ej: /imagines/ludici */
   basePath: string;
-  /** Milisegundos entre imágenes; 0 desactiva el autoplay */
+  /** Milisegundos entre desplazamientos; 0 desactiva el autoplay */
   autoplayDelay?: number;
 }
 
@@ -26,6 +26,17 @@ const prev = () => {
   index.value = (index.value - 1 + props.photos.length) % props.photos.length;
 };
 
+// Las 4 imágenes visibles: se repite la lista hasta llenar las columnas
+// y se desplaza según el índice (efecto cinta de carrusel).
+const visibles = computed(() => {
+  const total = props.photos.length;
+  if (total === 0) return [];
+  const base: string[] = [];
+  while (base.length < 4) base.push(...props.photos);
+  const start = index.value % total;
+  return [...base.slice(start), ...base.slice(0, start)].slice(0, 4);
+});
+
 let timer: number | undefined;
 
 onMounted(() => {
@@ -41,20 +52,33 @@ onUnmounted(() => {
 
 
 <template>
-  <div class="relative w-full max-w-md md:max-w-xl flex flex-col items-center gap-4 select-none">
-    <img
-      class="w-full max-h-[55vh] object-contain rounded-md border border-black bg-violet-800 shadow-lg"
-      :src="`${props.basePath}/${props.photos[index]}.jpg`"
-      :alt="`Imagen ${index + 1} del carrusel`"
-    />
+  <div class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 select-none">
+    <!-- Tira horizontal: 4 columnas × 1 fila, hueco proporcional -->
+    <div class="w-full grid grid-cols-4 grid-rows-1 gap-4">
+      <div
+        v-for="(photo, i) in visibles"
+        :key="`${photo}-${i}`"
+        class="group relative overflow-hidden rounded-md border border-black"
+      >
+        <img
+          class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          :src="`${props.basePath}/${photo}.jpg`"
+          :alt="`Imagen ${i + 1} del carrusel`"
+        />
 
+        <!-- Ranura: aquí el padre puede superponer un div sobre esta columna -->
+        <slot name="columne" :index="i" :photo="photo" />
+      </div>
+    </div>
+
+    <!-- Controles -->
     <div class="flex items-center gap-4">
       <button
         @click="prev"
         class="w-10 h-10 rounded-md bg-violet-600 hover:bg-violet-500 text-white font-bold transition-colors"
         aria-label="Anterior"
       >‹</button>
-      <p class="text-sm opacity-80">{{ index + 1 }} / {{ props.photos.length }}</p>
+      <p class="text-sm opacity-80">{{ (index % props.photos.length) + 1 }} / {{ props.photos.length }}</p>
       <button
         @click="next"
         class="w-10 h-10 rounded-md bg-violet-600 hover:bg-violet-500 text-white font-bold transition-colors"

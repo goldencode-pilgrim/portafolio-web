@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { House } from '@lucide/vue';
+
 // Similar a Pavlvs.vue (vue-web): secciones a lo largo de la página con
 // navegación por anclas y scroll suave. Sin contenido: solo divs y colores.
 interface Sectio {
   id: string;
   fons: string; // color de fondo de la sección
 }
+
 
 const sectiones: Sectio[] = [
   { id: 'prima', fons: 'bg-rose-900' },
@@ -21,8 +24,16 @@ const ireAdSectionem = (id: string) => {
 
 
 <template>
-  <!-- Navegación fija con anclas (como NavigatorPrimarius en Pavlvs) -->
   <nav class="fixed top-0 inset-x-0 z-20 flex flex-wrap justify-center gap-4 bg-black/70 text-white py-3 px-4">
+    <!-- Inicio (Domus): esquina superior izquierda del nav, como en el Layaout -->
+    <RouterLink
+      to="/"
+      title="Domus"
+      aria-label="Domus (inicio)"
+      class="absolute left-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-10 rounded-md bg-black hover:bg-indigo-700 transition-colors"
+    >
+      <House class="size-5" />
+    </RouterLink>
     <button
       v-for="sectio in sectiones"
       :key="sectio.id"
