@@ -4,12 +4,16 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 // Carrusel en tira horizontal: 4 columnas × 1 fila, hueco proporcional
 // y una ranura (#columne) para superponer un div sobre cada columna.
 interface Props {
-  /** Nombres de archivo SIN extensión */
+  /** Nombres de archivo, con o sin extensión */
   photos: string[];
-  /** Carpeta en /public, ej: /imagines/ludici */
+  /** Carpeta en /public, ej: /imagines/videojuegos */
   basePath: string;
   /** Milisegundos entre desplazamientos; 0 desactiva el autoplay */
   autoplayDelay?: number;
+  /** Si una celda muestra ESTA imagen, se convierte en enlace */
+  fotoEnlazada?: string;
+  /** Destino del enlace cuando la celda muestra fotoEnlazada */
+  ruta?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -37,6 +41,15 @@ const visibles = computed(() => {
   return [...base.slice(start), ...base.slice(0, start)].slice(0, 4);
 });
 
+// ¿Esta celda se convierte en enlace? Solo si hay fotoEnlazada + ruta
+// y la imagen mostrada coincide con fotoEnlazada.
+const esEnlace = (photo: string) =>
+  !!props.fotoEnlazada && !!props.ruta && photo === props.fotoEnlazada;
+
+// URL de la imagen: acepta nombres con o sin extensión
+const urlDe = (photo: string) =>
+  photo.includes('.') ? `${props.basePath}/${photo}` : `${props.basePath}/${photo}.jpg`;
+
 let timer: number | undefined;
 
 onMounted(() => {
@@ -60,9 +73,22 @@ onUnmounted(() => {
         :key="`${photo}-${i}`"
         class="group relative overflow-hidden rounded-md border border-black"
       >
+        <!-- Si muestra la imagen enlazada → RouterLink; si no → imagen sin enlace -->
+        <RouterLink
+          v-if="esEnlace(photo)"
+          :to="props.ruta!"
+          class="block h-full w-full"
+        >
+          <img
+            class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            :src="urlDe(photo)"
+            :alt="`Imagen ${i + 1} del carrusel`"
+          />
+        </RouterLink>
         <img
+          v-else
           class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          :src="`${props.basePath}/${photo}.jpg`"
+          :src="urlDe(photo)"
           :alt="`Imagen ${i + 1} del carrusel`"
         />
 
