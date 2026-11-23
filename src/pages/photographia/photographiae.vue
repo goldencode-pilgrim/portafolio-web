@@ -13,7 +13,7 @@ import { photographiae } from '@/lib/photographiae';
     >
       <div class="overflow-hidden rounded-t-md border border-black">
         <img
-          class="aspect-square w-full object-cover object-top transition-transform duration-200 hover:scale-105"
+          class="w-full h-auto transition-transform duration-200 hover:scale-105"
           :src="`/imagines/photographia/${photographia.imago}`"
           :alt="photographia.titulo"
         />

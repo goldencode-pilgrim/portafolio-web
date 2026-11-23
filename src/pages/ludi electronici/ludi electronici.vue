@@ -5,10 +5,10 @@ import { ludi } from '@/lib/dataludi';
 // Las imágenes que muestra el carrusel salen de dataludi.ts…
 const imaginum = ludi.map(l => l.imago);
 
-// …y cada imagen enlaza a la página de su juego según su id:
-//   /ludielectronici/collectione<id>
+// …y cada imagen enlaza a la ruta de su juego según dataludi.ts
+// (los juegos sin `ruta` definida enlazan a '/')
 const enlaces = Object.fromEntries(
-  ludi.map(l => [l.imago, `/ludielectronici/collectione${l.id}`]),
+  ludi.map(l => [l.imago, l.ruta ?? '/']),
 );
 </script>
 

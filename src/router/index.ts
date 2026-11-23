@@ -9,7 +9,10 @@ import Picturae from "@/pages/pictura/picturae.vue";
 import Delineationes from "@/pages/pingo/delineationes.vue";
 import Imagines from "@/pages/pingo/imagines.vue";
 import LudiciElectronici from "@/pages/ludi electronici/ludi electronici.vue";
-import Ludus from "@/pages/ludi electronici/ludus.vue";
+import LayaoutPolcompball from "@/pages/ludi electronici/polcompball/Layaoutpolcompball.vue";
+import DeConsilioPolcompball from "@/pages/ludi electronici/polcompball/de consiliopolcompball.vue";
+import LayaoutSandL from "@/pages/ludi electronici/Sunroja & Lunablack/Layaouts&l.vue";
+import DeConsilioSandL from "@/pages/ludi electronici/Sunroja & Lunablack/deconsilios&l.vue";
 import Layaoutludici from "@/pages/ludi electronici/fidesetdesperatioDANA/Layaoutludici.vue";
 import DeConsilio from "@/pages/ludi electronici/fidesetdesperatioDANA/de consilio.vue";
 import Personae from "@/pages/ludi electronici/fidesetdesperatioDANA/personae.vue";
@@ -108,9 +111,30 @@ export const router = createRouter({
           component: LudiciElectronici
         },
         {
-          path: 'collectione:id',
-          name: 'ludus',
-          component: Ludus
+          path: '0',
+          redirect: { name: 'informatio' }
+        },
+        {
+          path: '1',
+          component: LayaoutPolcompball,
+          children: [
+            {
+              path: '',
+              name: 'informatio-pcb',
+              component: DeConsilioPolcompball
+            },
+          ]
+        },
+        {
+          path: '2',
+          component: LayaoutSandL,
+          children: [
+            {
+              path: '',
+              name: 'informatio-sl',
+              component: DeConsilioSandL
+            },
+          ]
         },
         {
           path: 'f&d-dana',

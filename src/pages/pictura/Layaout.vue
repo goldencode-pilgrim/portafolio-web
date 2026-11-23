@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { House } from '@lucide/vue';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
+import Button from '@/components/ui/button/Button.vue';
 
+interface Sectio {
+  nomen: string;
+  ruta: string;
+}
+
+const sectiones: Sectio[] = [
+  { nomen: 'Artes gráficas', ruta: '/pingo/imagines' },
+  { nomen: 'Artes pictóricas', ruta: '/pictura/pinacotheca' },
+  { nomen: 'Artes fotográficas', ruta: '/photographia/pinacotheca' },
+  { nomen: 'Artes audiovisuales', ruta: '/pelicula/pinacotheca' },
+  { nomen: 'Artes interactivas', ruta: '/ludielectronici/collectione' },
+  { nomen: 'MAICI', ruta: '/maici' },
+  { nomen: 'RR.SS', ruta: '/rrss' },
+];
 </script>
 
 <template>
     <div class="flex h-screen">
-      <nav class="w-48 shrink-0 bg-indigo-900 border-4 border-black text-white flex flex-col items-stretch gap-2.5 p-2">
-       
+      <nav class="w-48 shrink-0 bg-indigo-900 border-4 border-black text-white flex flex-col items-stretch gap-2.5 p-2 overflow-y-auto">
         <RouterLink
           to="/"
           title="Domus"
@@ -22,21 +30,17 @@ import {
           <House class="size-6" />
         </RouterLink>
 
-        <!-- w-full: ocupa exactamente el ancho del nav, nunca sobresale -->
-        <Accordion type="single" collapsible class="w-full">
-          <AccordionItem value="secciones">
-            <AccordionTrigger class="px-2">Secciones</AccordionTrigger>
-            <AccordionContent class="flex flex-col gap-1 bg-indigo-800 rounded-md p-1">
-              <RouterLink to="/pictura/pinacotheca" class="px-2 py-1 rounded hover:bg-indigo-700">Artes pictóricas</RouterLink>
-              <RouterLink to="/pingo/imagines" class="px-2 py-1 rounded hover:bg-indigo-700">Artes gráficas</RouterLink>
-              <RouterLink to="/photographia/pinacotheca" class="px-2 py-1 rounded hover:bg-indigo-700">Artes fotográficas</RouterLink>
-              <RouterLink to="/pelicula/pinacotheca" class="px-2 py-1 rounded hover:bg-indigo-700">Artes audiovisuales</RouterLink>
-              <RouterLink to="/ludielectronici/collectione" class="px-2 py-1 rounded hover:bg-indigo-700">Artes interactivas digitales</RouterLink>
-              <RouterLink to="/maici" class="px-2 py-1 rounded hover:bg-indigo-700">MAICI</RouterLink>
-              <RouterLink to="/rrss" class="px-2 py-1 rounded hover:bg-indigo-700">RR.SS</RouterLink>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <!-- Un botón por sección: as-child hace que el RouterLink herede
+             los estilos del Button sin anidar <button> dentro de <a> -->
+        <Button
+          v-for="sectio in sectiones"
+          :key="sectio.ruta"
+          as-child
+          variant="domus"
+          class="text-sm px-3 py-2"
+        >
+          <RouterLink :to="sectio.ruta">{{ sectio.nomen }}</RouterLink>
+        </Button>
       </nav>
       <main class="flex-1 overflow-y-auto">
         <RouterView />

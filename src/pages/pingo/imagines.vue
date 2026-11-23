@@ -13,12 +13,12 @@ import { delineationes } from '@/lib/delineationes';
     >
       <div class="overflow-hidden rounded-t-md border border-black">
         <img
-          class="aspect-square w-full object-cover object-top transition-transform duration-200 hover:scale-105"
-          :src="`/imagines/pingo/${delineatio.imago}`"
+          class="w-full h-auto transition-transform duration-200 hover:scale-105"
+          :src="`/imagines/delineationes/${delineatio.imago}`"
           :alt="delineatio.titulo"
         />
       </div>
-      <p class="text-black text-sm mt-1">{{ delineatio.titulo }} (id: {{ delineatio.id }})</p>
+      <p class="text-black text-sm mt-1">{{ delineatio.titulo }} </p>
     </RouterLink>
   </div>
 </template>
