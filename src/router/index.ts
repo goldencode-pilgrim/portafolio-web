@@ -9,6 +9,7 @@ import Picturae from "@/pages/pictura/picturae.vue";
 import Delineationes from "@/pages/pingo/delineationes.vue";
 import Imagines from "@/pages/pingo/imagines.vue";
 import LudiciElectronici from "@/pages/ludi electronici/ludi electronici.vue";
+import Ludus from "@/pages/ludi electronici/ludus.vue";
 import Layaoutludici from "@/pages/ludi electronici/fidesetdesperatioDANA/Layaoutludici.vue";
 import DeConsilio from "@/pages/ludi electronici/fidesetdesperatioDANA/de consilio.vue";
 import Personae from "@/pages/ludi electronici/fidesetdesperatioDANA/personae.vue";
@@ -105,6 +106,11 @@ export const router = createRouter({
           path: 'collectione',
           name: 'collectione',
           component: LudiciElectronici
+        },
+        {
+          path: 'collectione:id',
+          name: 'ludus',
+          component: Ludus
         },
         {
           path: 'f&d-dana',

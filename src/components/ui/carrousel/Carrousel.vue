@@ -10,14 +10,15 @@ interface Props {
   basePath: string;
   /** Milisegundos entre desplazamientos; 0 desactiva el autoplay */
   autoplayDelay?: number;
-  /** Si una celda muestra ESTA imagen, se convierte en enlace */
-  fotoEnlazada?: string;
-  /** Destino del enlace cuando la celda muestra fotoEnlazada */
-  ruta?: string;
+  /** Mapa imago → ruta: las celdas cuya imagen tenga entrada aquí son enlaces */
+  enlaces?: Record<string, string>;
+  /** Nº de imágenes visibles en la tira (1 = una sola imagen) */
+  columnas?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   autoplayDelay: 3000,
+  columnas: 4,
 });
 
 const index = ref(0);
@@ -30,21 +31,22 @@ const prev = () => {
   index.value = (index.value - 1 + props.photos.length) % props.photos.length;
 };
 
-// Las 4 imágenes visibles: se repite la lista hasta llenar las columnas
+// Las imágenes visibles: se repite la lista hasta llenar las columnas
 // y se desplaza según el índice (efecto cinta de carrusel).
 const visibles = computed(() => {
   const total = props.photos.length;
+  const cols = Math.max(1, props.columnas);
   if (total === 0) return [];
   const base: string[] = [];
-  while (base.length < 4) base.push(...props.photos);
+  while (base.length < cols) base.push(...props.photos);
   const start = index.value % total;
-  return [...base.slice(start), ...base.slice(0, start)].slice(0, 4);
+  return [...base.slice(start), ...base.slice(0, start)].slice(0, cols);
 });
 
-// ¿Esta celda se convierte en enlace? Solo si hay fotoEnlazada + ruta
-// y la imagen mostrada coincide con fotoEnlazada.
+// ¿Esta celda se convierte en enlace? Solo si su imagen tiene entrada
+// en el mapa de enlaces.
 const esEnlace = (photo: string) =>
-  !!props.fotoEnlazada && !!props.ruta && photo === props.fotoEnlazada;
+  !!props.enlaces && !!props.enlaces[photo];
 
 // URL de la imagen: acepta nombres con o sin extensión
 const urlDe = (photo: string) =>
@@ -65,9 +67,15 @@ onUnmounted(() => {
 
 
 <template>
-  <div class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 select-none">
-    <!-- Tira horizontal: 4 columnas × 1 fila, hueco proporcional -->
-    <div class="w-full grid grid-cols-4 grid-rows-1 gap-4">
+  <div
+    class="mx-auto flex flex-col items-center gap-4 select-none"
+    :class="props.columnas === 1 ? 'w-full max-w-md md:max-w-xl' : 'w-full max-w-4xl'"
+  >
+    <!-- Tira horizontal: columnas × 1 fila, hueco proporcional -->
+    <div
+      class="w-full grid grid-rows-1 gap-4"
+      :style="{ gridTemplateColumns: `repeat(${props.columnas}, minmax(0, 1fr))` }"
+    >
       <div
         v-for="(photo, i) in visibles"
         :key="`${photo}-${i}`"
@@ -76,18 +84,20 @@ onUnmounted(() => {
         <!-- Si muestra la imagen enlazada → RouterLink; si no → imagen sin enlace -->
         <RouterLink
           v-if="esEnlace(photo)"
-          :to="props.ruta!"
+          :to="props.enlaces![photo]!"
           class="block h-full w-full"
         >
           <img
-            class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            class="transition-transform duration-300 group-hover:scale-105"
+            :class="props.columnas === 1 ? 'block max-h-[55vh] w-auto mx-auto object-contain' : 'aspect-[3/4] w-full object-cover'"
             :src="urlDe(photo)"
             :alt="`Imagen ${i + 1} del carrusel`"
           />
         </RouterLink>
         <img
           v-else
-          class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          class="transition-transform duration-300 group-hover:scale-105"
+          :class="props.columnas === 1 ? 'block max-h-[55vh] w-auto mx-auto object-contain' : 'aspect-[3/4] w-full object-cover'"
           :src="urlDe(photo)"
           :alt="`Imagen ${i + 1} del carrusel`"
         />
