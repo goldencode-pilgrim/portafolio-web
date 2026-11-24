@@ -18,7 +18,7 @@ import { delineationes } from '@/lib/delineationes';
           :alt="delineatio.titulo"
         />
       </div>
-      <p class="text-black text-sm mt-1">{{ delineatio.titulo }} </p>
+      <p class="text-black text-sm italic mt-1">{{ delineatio.titulo }} </p>
     </RouterLink>
   </div>
 </template>

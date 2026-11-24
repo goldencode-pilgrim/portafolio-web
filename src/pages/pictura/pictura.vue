@@ -18,7 +18,7 @@ import { picturae } from '@/lib/picturae';
           :alt="pictura.titulo"
         />
       </div>
-      <p class="text-black text-sm mt-1">{{ pictura.titulo }} </p>
+      <p class="text-black text-sm italic mt-1">{{ pictura.titulo }} </p>
     </RouterLink>
   </div>
 </template>

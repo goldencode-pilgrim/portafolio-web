@@ -8,8 +8,8 @@ export interface Photographia {
 }
 
 export const photographiae: Photographia[] = [
-  { id: 0, titulo: 'Photographia I', imago: 'autoretratoartista2023.jpg', categoria: '', dies: '', technica: '' },
-  { id: 1, titulo: 'Photographia II', imago: 'autoretratoartista2023.jpg', categoria: '', dies: '', technica: '' },
-  { id: 2, titulo: 'Photographia III', imago: 'autoretratoartista2023.jpg', categoria: '', dies: '', technica: '' },
-  { id: 3, titulo: 'Photographia IV', imago: 'autoretratoartista2023.jpg', categoria: '', dies: '', technica: '' },
+  { id: 0, titulo: 'Photographia I', imago: 'photo1.jpg', categoria: 'maqueta', dies: '2025', technica: 'maqueta y fotografía editada' },
+  { id: 1, titulo: 'Photographia II', imago: 'photo2.jpg', categoria: 'alegoría', dies: '2025', technica: 'fotografía editada tiempos de exposición largos' },
+  { id: 2, titulo: 'Dualidad', imago: 'photo3.JPG', categoria: 'alegoría', dies: '2025', technica: 'fotografía editada tiempos de exposición largos' },
+ 
 ];

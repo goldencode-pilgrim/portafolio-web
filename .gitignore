@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vídeos grandes: fuera de git (límite de 100 MB por archivo en GitHub)
+public/video/

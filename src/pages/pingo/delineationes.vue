@@ -35,7 +35,7 @@ const delineatio = computed(() =>
           title="Clic para cerrar"
         />
       </div>
-      <h1 class="text-2xl font-bold">{{ delineatio.titulo }}</h1>
+      <h1 class="text-2xl font-bold italic">{{ delineatio.titulo }}</h1>
       <p v-if="delineatio.dies" class="text-sm opacity-75">Dies: {{ delineatio.dies }}</p>
       <p v-if="delineatio.categoria" class="text-sm opacity-75">Categoria: {{ delineatio.categoria }}</p>
       <p v-if="delineatio.technica" class="text-sm opacity-75">Technica: {{ delineatio.technica }}</p>

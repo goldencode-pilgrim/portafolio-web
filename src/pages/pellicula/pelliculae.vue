@@ -12,13 +12,21 @@ import { pelliculae } from '@/lib/pelliculae';
       class="block"
     >
       <div class="overflow-hidden rounded-t-md border border-black">
+        <video
+          v-if="pellicula.video"
+          class="w-full h-auto"
+          :src="`/video/${pellicula.video}#t=0.1`"
+          muted
+          preload="metadata"
+        ></video>
         <img
+          v-else-if="pellicula.imago"
           class="w-full h-auto transition-transform duration-200 hover:scale-105"
           :src="`/imagines/pellicula/${pellicula.imago}`"
           :alt="pellicula.titulo"
         />
       </div>
-      <p class="text-white text-sm mt-1">{{ pellicula.titulo }} (id: {{ pellicula.id }})</p>
+      <p class="text-white text-sm italic mt-1">{{ pellicula.titulo }} </p>
     </RouterLink>
   </div>
 </template>

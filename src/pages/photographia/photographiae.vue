@@ -14,11 +14,11 @@ import { photographiae } from '@/lib/photographiae';
       <div class="overflow-hidden rounded-t-md border border-black">
         <img
           class="w-full h-auto transition-transform duration-200 hover:scale-105"
-          :src="`/imagines/photographia/${photographia.imago}`"
+          :src="`/imagines/photo/${photographia.imago}`"
           :alt="photographia.titulo"
         />
       </div>
-      <p class="text-black text-sm mt-1">{{ photographia.titulo }} (id: {{ photographia.id }})</p>
+      <p class="text-black text-sm italic mt-1">{{ photographia.titulo }} </p>
     </RouterLink>
   </div>
 </template>

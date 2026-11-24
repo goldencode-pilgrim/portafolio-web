@@ -11,7 +11,8 @@ export interface Ludus {
   descriptio?: string;
   categoria: string;
   dies: string;
-  technica: string;
+  status: string;
+  video: string;
 }
 
 export const ludi: Ludus[] = [
@@ -20,9 +21,10 @@ export const ludi: Ludus[] = [
     nomen: 'Fides et Desperatio (DANA)',
     imago: 'F&D-DANA-diariodesarrollo1-miniatura.png',
     ruta: '/ludielectronici/0',
-    categoria: '',
-    dies: '',
-    technica: '',
+    categoria: 'JRPG y survival horror.',
+    dies: '2026-',
+    status: 'WIP',
+    video:'',
   },
   { id: 1, nomen: 'Polcompass', imago: 'Polcompass.png', ruta: '/ludielectronici/1', categoria: '', dies: '', technica: '' },
   { id: 2, nomen: 'Portadas', imago: 'portadasunrojavue.png', ruta: '/ludielectronici/2', categoria: '', dies: '', technica: '' },

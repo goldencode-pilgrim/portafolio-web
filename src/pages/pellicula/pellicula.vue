@@ -13,29 +13,41 @@ const pellicula = computed(() =>
 
 
 <template>
-  <div class="bg-pink-300 min-h-full w-full text-black font-sans text-center flex flex-col items-center gap-4 p-6">
+  <div class="bg-gray-900 min-h-full w-full text-white font-sans text-center flex flex-col items-center gap-4 p-6">
     <template v-if="pellicula">
-      <img
-        v-if="!zoom"
-        class="w-full max-w-xl h-auto rounded-md border border-black cursor-zoom-in"
-        :src="`/imagines/pellicula/${pellicula.imago}`"
-        :alt="pellicula.titulo"
-        title="Clic para ampliar"
-        @click="zoom = true"
-      />
-      <div
-        v-if="zoom"
-        class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center cursor-zoom-out"
-        @click="zoom = false"
-      >
+      <!-- Obra en vídeo: se reproduce en la ficha -->
+      <video
+        v-if="pellicula.video"
+        controls
+        autoplay
+        class="w-full max-w-xl h-auto rounded-md border border-black"
+        :src="`/video/${pellicula.video}`"
+      ></video>
+
+      <!-- Obra con póster: imagen con zoom -->
+      <template v-else-if="pellicula.imago">
         <img
-          class="max-h-full max-w-full object-contain"
+          v-if="!zoom"
+          class="w-full max-w-xl h-auto rounded-md border border-black cursor-zoom-in"
           :src="`/imagines/pellicula/${pellicula.imago}`"
           :alt="pellicula.titulo"
-          title="Clic para cerrar"
+          title="Clic para ampliar"
+          @click="zoom = true"
         />
-      </div>
-      <h1 class="text-2xl font-bold">{{ pellicula.titulo }}</h1>
+        <div
+          v-if="zoom"
+          class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center cursor-zoom-out"
+          @click="zoom = false"
+        >
+          <img
+            class="max-h-full max-w-full object-contain"
+            :src="`/imagines/pellicula/${pellicula.imago}`"
+            :alt="pellicula.titulo"
+            title="Clic para cerrar"
+          />
+        </div>
+      </template>
+      <h1 class="text-2xl font-bold italic">{{ pellicula.titulo }}</h1>
       <p v-if="pellicula.dies" class="text-sm opacity-75">Dies: {{ pellicula.dies }}</p>
       <p v-if="pellicula.categoria" class="text-sm opacity-75">Categoria: {{ pellicula.categoria }}</p>
       <p v-if="pellicula.technica" class="text-sm opacity-75">Technica: {{ pellicula.technica }}</p>

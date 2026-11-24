@@ -80,6 +80,7 @@ onUnmounted(() => {
         v-for="(photo, i) in visibles"
         :key="`${photo}-${i}`"
         class="group relative overflow-hidden rounded-md border border-black"
+        :class="props.columnas === 1 ? 'w-fit mx-auto' : 'w-full'"
       >
         <!-- Si muestra la imagen enlazada → RouterLink; si no → imagen sin enlace -->
         <RouterLink

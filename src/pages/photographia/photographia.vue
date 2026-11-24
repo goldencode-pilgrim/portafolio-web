@@ -18,7 +18,7 @@ const photographia = computed(() =>
       <img
         v-if="!zoom"
         class="w-full max-w-xl h-auto rounded-md border border-black cursor-zoom-in"
-        :src="`/imagines/photographia/${photographia.imago}`"
+        :src="`/imagines/photo/${photographia.imago}`"
         :alt="photographia.titulo"
         title="Clic para ampliar"
         @click="zoom = true"
@@ -30,12 +30,12 @@ const photographia = computed(() =>
       >
         <img
           class="max-h-full max-w-full object-contain"
-          :src="`/imagines/photographia/${photographia.imago}`"
+          :src="`/imagines/photo/${photographia.imago}`"
           :alt="photographia.titulo"
           title="Clic para cerrar"
         />
       </div>
-      <h1 class="text-2xl font-bold">{{ photographia.titulo }}</h1>
+      <h1 class="text-2xl font-bold italic">{{ photographia.titulo }}</h1>
       <p v-if="photographia.dies" class="text-sm opacity-75">Dies: {{ photographia.dies }}</p>
       <p v-if="photographia.categoria" class="text-sm opacity-75">Categoria: {{ photographia.categoria }}</p>
       <p v-if="photographia.technica" class="text-sm opacity-75">Technica: {{ photographia.technica }}</p>

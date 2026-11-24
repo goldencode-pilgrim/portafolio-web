@@ -35,7 +35,7 @@ const cuadro = computed(() =>
           title="Clic para cerrar"
         />
       </div>
-      <h1 class="text-2xl font-bold">{{ cuadro.titulo }}</h1>
+      <h1 class="text-2xl font-bold italic">{{ cuadro.titulo }}</h1>
       <p v-if="cuadro.dies" class="text-sm opacity-75">Dies: {{ cuadro.dies }}</p>
       <p v-if="cuadro.categoria" class="text-sm opacity-75">Categoria: {{ cuadro.categoria }}</p>
       <p v-if="cuadro.technica" class="text-sm opacity-75">Technica: {{ cuadro.technica }}</p>
